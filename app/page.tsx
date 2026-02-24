@@ -1,10 +1,26 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Header from "@/components/Header";
 import ProgressBar from "@/components/ProgressBar";
 import CalendarGrid from "@/components/CalendarGrid";
 import { getCurrentRamadanDay } from "@/lib/ramadan";
 
 export default function Home() {
-  const currentDay = getCurrentRamadanDay();
+  const [currentDay, setCurrentDay] = useState(0);
+
+  useEffect(() => {
+    const updateDay = () => {
+      setCurrentDay(getCurrentRamadanDay());
+    };
+
+    updateDay();
+
+    const interval = setInterval(updateDay, 60000); 
+    // cek tiap 1 menit
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <main className="min-h-screen bg-emerald-50 dark:bg-slate-900 px-4 py-10">
